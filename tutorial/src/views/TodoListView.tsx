@@ -90,16 +90,11 @@ function TodoListView() {
     // Call the API when the component first loads.
     // We pass an ApiRequest object directly to callApi.
     //
-    // The callApi function will:
-    //   1. Set loading = true (triggers a re-render → spinner appears)
-    //   2. Call apiMiddleware with our request
-    //   3. Set data = the todos (triggers a re-render → list appears)
-    //   OR set error = message (triggers a re-render → error message appears)
-    //   4. Set loading = false (triggers a re-render → spinner disappears)
+    // callApi is included in the dependency array (the correct React practice).
+    // It is safe because callApi is memoized with useCallback([]) inside useApi,
+    // so its reference never changes — this effect still runs only once on mount.
     callApi({ url: '/todos', method: 'GET' });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // The eslint comment above disables a warning about missing dependencies.
-  // We intentionally use [] here — we only want this to run once on mount.
+  }, [callApi]);
 
   // ── Render ────────────────────────────────────────────────────────────────
   //

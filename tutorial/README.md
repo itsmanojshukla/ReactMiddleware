@@ -40,6 +40,8 @@ UserView.tsx         ───▶ apiGet()        ───▶  /todos
 PostView.tsx             apiPost()              /users
                          (one place for         /posts
                           all API calls)
+
+App.tsx provides tab navigation between the three views.
 ```
 
 ---
@@ -61,7 +63,7 @@ npm run dev
 
 ---
 
-## 📚 The 7 Steps of This Tutorial
+## 📚 The 9 Steps of This Tutorial
 
 | Step | File | What you learn |
 |------|------|----------------|
@@ -70,8 +72,10 @@ npm run dev
 | 3 | `src/api-middleware.ts` — Middleware function | The core function that every view calls |
 | 4 | `src/api-middleware.ts` — Helper functions | Shortcuts like `apiGet`, `apiPost` |
 | 5 | `src/useApi.ts` | A React hook that wraps the middleware with loading/error state |
-| 6 | `src/views/TodoListView.tsx` | A real view that fetches and shows a list of todos |
-| 7 | `src/App.tsx` | Wiring everything together in the app |
+| 6 | `src/views/TodoListView.tsx` | View 1 — GET a list of todos; loading/error/success pattern |
+| 7 | `src/views/UserView.tsx` | View 2 — GET a list of users; same pattern, different data shape |
+| 8 | `src/views/PostView.tsx` | View 3 — GET posts + POST a new post (two HTTP methods in one view) |
+| 9 | `src/App.tsx` | Tab navigation wiring all three views together |
 
 ---
 
@@ -87,10 +91,13 @@ tutorial/
 └── src/
     ├── main.tsx           ← Entry point — mounts React into index.html
     ├── index.css          ← Global styles
+    ├── App.tsx            ← Root component with tab navigation
     ├── api-middleware.ts  ← ⭐ THE CORE MIDDLEWARE
     ├── useApi.ts          ← Custom React hook wrapping the middleware
     └── views/
-        └── TodoListView.tsx  ← Example view using the middleware
+        ├── TodoListView.tsx  ← View 1: GET /todos
+        ├── UserView.tsx      ← View 2: GET /users
+        └── PostView.tsx      ← View 3: GET /posts + POST demo
 ```
 
 ---
