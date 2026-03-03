@@ -1,73 +1,140 @@
-# React + TypeScript + Vite
+# ReactMiddleware
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A reusable, composable **API middleware library for React + TypeScript**.
 
-Currently, two official plugins are available:
+This repository contains two things:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Directory | What it is |
+|-----------|-----------|
+| `src/` | The production middleware library (composable, TypeScript-first) |
+| `tutorial/` | A self-contained beginner tutorial that teaches the same concept from scratch |
+| `ConsumerReactApp/` | An example React app that consumes the library |
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📦 The Library (`src/`)
 
-## Expanding the ESLint configuration
+A middleware pipeline for all your API calls — authentication, caching, error handling, and logging in one composable chain.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `createAPIWrapper` — creates a typed API client with a configurable middleware stack
+- `applyMiddleware` — composes multiple middleware functions into a single handler
+- Built-in middlewares: `loggerMiddleware`, `createAuthMiddleware`, `createCacheMiddleware`, `errorMiddleware`
+- `useAPI` hook — React hook for calling the wrapper with `loading`/`error`/`data` state
+- `APIWrapperProvider` — React context provider that shares one wrapper across the whole app
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Quick start
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+npm install
+
+# Run the main app (development server)
+npm run dev
+
+# Run all tests
+npm test
+
+# Build
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Folder structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── GenericAPIWrapper.ts       ← Public entry point — re-exports everything
+├── middleware/
+│   ├── types.ts               ← TypeScript interfaces (RequestConfig, ResponseData, …)
+│   ├── applyMiddleware.ts     ← Composes multiple middlewares into one handler
+│   ├── createAPIWrapper.ts    ← Factory that creates a typed API client
+│   └── middlewares/           ← Built-in middlewares (auth, cache, error, logger)
+├── context/
+│   └── APIWrapperContext.tsx  ← React context provider
+├── hooks/
+│   └── useAPI.ts              ← useAPI React hook
+└── __tests__/                 ← Vitest unit tests
+```
+
+---
+
+## 🎓 Beginner Tutorial (`tutorial/`)
+
+A **standalone React + TypeScript app** that teaches the API middleware pattern from scratch, with heavy inline comments at every step.
+
+> **New to React?** Start here.
+
+### What you'll build
+
+A three-tab app that fetches Todos, Users, and Posts from a public API — all going through one shared middleware file.
+
+```
+Views (pages)       →    Middleware       →    API (internet)
+TodoListView.tsx         api-middleware.ts      jsonplaceholder.typicode.com
+UserView.tsx         ───▶ apiGet()        ───▶  /todos
+PostView.tsx             apiPost()              /users
+                         (one place for         /posts
+                          all API calls)
+```
+
+### How to run the tutorial
+
+```bash
+# Step 1: go into the tutorial folder
+cd tutorial
+
+# Step 2: install dependencies (only needed once)
+npm install
+
+# Step 3: start the development server
+npm run dev
+
+# Open your browser at http://localhost:5173
+```
+
+### Tutorial folder structure
+
+```
+tutorial/
+├── README.md              ← Tutorial-specific guide (9-step walkthrough)
+├── package.json
+├── index.html
+├── tsconfig.json
+├── vite.config.ts
+└── src/
+    ├── main.tsx           ← Entry point
+    ├── App.tsx            ← Root component with tab navigation
+    ├── api-middleware.ts  ← ⭐ The core middleware (heavily commented)
+    ├── useApi.ts          ← Custom hook wrapping the middleware
+    └── views/
+        ├── TodoListView.tsx  ← View 1: GET /todos
+        ├── UserView.tsx      ← View 2: GET /users
+        └── PostView.tsx      ← View 3: GET /posts + POST demo
+```
+
+See [`tutorial/README.md`](./tutorial/README.md) for a full step-by-step walkthrough.
+
+---
+
+## 🛒 Consumer Example (`ConsumerReactApp/`)
+
+An example React application that imports and uses the library from `src/`.
+
+```bash
+cd ConsumerReactApp
+npm install
+npm run dev
+```
+
+---
+
+## 🧪 Tests
+
+Tests for the library live in `src/__tests__/` and use [Vitest](https://vitest.dev/).
+
+```bash
+# Run from the repo root
+npm test
+```
+
