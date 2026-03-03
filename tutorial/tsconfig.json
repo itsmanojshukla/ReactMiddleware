@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    /* ── Language & Environment ───────────────────────────────────────────── */
+
+    // We are targeting modern browsers, so we use the latest JavaScript version
+    "target": "ES2020",
+
+    // These are the built-in TypeScript type definitions to include.
+    // "DOM" = browser APIs like document, window
+    // "DOM.Iterable" = lets you loop over DOM collections with for...of
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+
+    // "bundler" means we are using a bundler (Vite) to handle imports,
+    // so TypeScript doesn't need to worry about that itself.
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    /* ── JSX ─────────────────────────────────────────────────────────────── */
+
+    // This tells TypeScript how to handle .tsx / .jsx files.
+    // "react-jsx" uses the modern JSX transform (no need to import React in every file)
+    "jsx": "react-jsx",
+
+    /* ── Strict Type Checking ─────────────────────────────────────────────── */
+
+    // Turns on a set of strict checks. Highly recommended — catches bugs early.
+    "strict": true,
+
+    // Warns when TypeScript can't determine the type and falls back to `any`.
+    "noImplicitAny": true,
+
+    /* ── Module Resolution Helpers ───────────────────────────────────────── */
+
+    // Allows importing CommonJS modules as default imports (common need with some libraries)
+    "allowSyntheticDefaultImports": true,
+
+    // Needed when "moduleResolution" is "bundler" — allows importing .ts files without extension
+    "allowImportingTsExtensions": true,
+
+    // Only emit type declarations, not JavaScript. Vite handles the actual compilation.
+    "noEmit": true,
+
+    /* ── Interop ──────────────────────────────────────────────────────────── */
+
+    // Makes TypeScript play nicely with CommonJS modules (some npm packages use CommonJS)
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}
