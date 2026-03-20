@@ -1,8 +1,18 @@
-# React + TypeScript + Vite
+# GenericAPIWrapper — React Middleware Architecture
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A TypeScript-based middleware pipeline for React applications, providing composable request/response handling with built-in support for authentication, caching, error handling, logging, retry logic, and circuit breaking.
 
-Currently, two official plugins are available:
+## Discussion: AI and Developer Roles
+
+For a thoughtful discussion on job security in the age of AI agents — using this codebase as a case study — see [docs/AI_AND_DEVELOPER_ROLES.md](docs/AI_AND_DEVELOPER_ROLES.md).
+
+## Tech Stack
+
+- **React 19** + **TypeScript** + **Vite**
+- **Axios** for HTTP requests
+- **Vitest** + **React Testing Library** for tests
+
+Currently, two official Vite plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
